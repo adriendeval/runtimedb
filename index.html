@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RuntimeDB</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RuntimeDB</title>
+  <meta name="description" content="Base de données des différentes versions de films et de leurs durées." />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header class="hero">
+    <div class="hero__inner">
+      <p class="eyebrow">RuntimeDB</p>
+      <h1>Les versions de films, pas juste les films.</h1>
+      <p class="subtitle">
+        Theatrical Cut, Director's Cut, Extended Cut, Special Edition, Unrated Cut...
+      </p>
 
-    <header>
-        <h1>RuntimeDB</h1>
-        <p>Movie runtime comparison database</p>
-    </header>
+      <div class="searchbar">
+        <input id="searchInput" type="search" placeholder="Rechercher un film, une version, un type..." />
+      </div>
 
-    <main id="movies"></main>
+      <div class="stats" id="stats"></div>
+    </div>
+  </header>
 
-    <script src="config.js"></script>
-    <script src="app.js"></script>
+  <main class="page">
+    <section id="status" class="status">Chargement du CSV…</section>
+    <section id="movies" class="movies"></section>
+  </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
