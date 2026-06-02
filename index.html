@@ -8,24 +8,20 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="hero">
-    <div class="hero__inner">
-      <p class="eyebrow">RuntimeDB</p>
-      <h1>Les versions de films, pas juste les films.</h1>
-      <p class="subtitle">
-        Theatrical Cut, Director's Cut, Extended Cut, Special Edition, Unrated Cut...
-      </p>
-
-      <div class="searchbar">
-        <input id="searchInput" type="search" placeholder="Rechercher un film, une version, un type..." />
+  <header class="navbar">
+    <div class="navbar__inner">
+      <div class="brand">
+        <span class="logo-text">Runtime<span class="accent">DB</span></span>
+        <span class="stats" id="stats"></span>
       </div>
-
-      <div class="stats" id="stats"></div>
+      <div class="searchbar">
+        <input id="searchInput" type="search" placeholder="Rechercher un film, une version, un type..." autocomplete="off" />
+      </div>
     </div>
   </header>
 
   <main class="page">
-    <section id="status" class="status">Chargement du CSV…</section>
+    <div id="status" class="status">Chargement de la base de données…</div>
     <section id="movies" class="movies"></section>
   </main>
 

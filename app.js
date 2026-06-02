@@ -40,7 +40,6 @@ function normalizeRows(rows) {
 
     normalized.push(clean);
   }
-
   return normalized;
 }
 
@@ -57,7 +56,6 @@ function groupMovies(rows) {
         rows: []
       });
     }
-
     map.get(key).rows.push(row);
   }
 
@@ -90,10 +88,6 @@ function renderMovies(groups) {
 
   elements.movies.innerHTML = groups.map(movie => {
     const versionRows = movie.rows.map(row => {
-      const tmdbLink = movie.id_tmdb
-        ? `${CONFIG.TMDB_BASE_URL}${encodeURIComponent(movie.id_tmdb)}`
-        : "";
-
       return `
         <tr>
           <td data-label="Type"><span class="type-pill">${escapeHtml(row.type || "—")}</span></td>
@@ -105,7 +99,7 @@ function renderMovies(groups) {
 
     const tmdbBadge = movie.id_tmdb
       ? `<a class="badge link" href="${CONFIG.TMDB_BASE_URL}${encodeURIComponent(movie.id_tmdb)}" target="_blank" rel="noreferrer">TMDB #${escapeHtml(movie.id_tmdb)}</a>`
-      : `<span class="badge">ID TMDB manquant</span>`;
+      : `<span class="badge" style="opacity: 0.5;">ID TMDB manquant</span>`;
 
     return `
       <article class="movie-card">
@@ -116,7 +110,6 @@ function renderMovies(groups) {
               <span>${movie.rows.length} version${movie.rows.length > 1 ? "s" : ""}</span>
             </div>
           </div>
-
           <div class="badges">
             ${tmdbBadge}
           </div>
@@ -126,9 +119,9 @@ function renderMovies(groups) {
           <table class="version-table">
             <thead>
               <tr>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Durée</th>
+                <th style="width: 15%;">Type</th>
+                <th style="width: 70%;">Description</th>
+                <th style="width: 15%; text-align: right;">Durée</th>
               </tr>
             </thead>
             <tbody>
@@ -159,35 +152,26 @@ function applySearch() {
 }
 
 async function loadData() {
-  elements.status.textContent = "Chargement du CSV…";
-
   try {
     const response = await fetch(CONFIG.CSV_URL, { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error(`CSV inaccessible (${response.status})`);
-    }
+    if (!response.ok) throw new Error(`CSV inaccessible (${response.status})`);
 
     const csvText = await response.text();
-
     const parsed = Papa.parse(csvText, {
       header: true,
       skipEmptyLines: true,
       transformHeader: header => header.trim()
     });
 
-    if (parsed.errors?.length) {
-      console.warn("CSV parse errors:", parsed.errors);
-    }
-
     const rows = normalizeRows(parsed.data || []);
     allMovies = groupMovies(rows);
 
-    elements.status.textContent = "";
+    elements.status.style.display = "none";
     applySearch();
   } catch (error) {
     console.error(error);
-    elements.status.textContent = "Impossible de charger le CSV.";
-    renderEmpty("Le fichier CSV n'a pas pu être lu. Vérifie l'URL publiée de Google Sheets.");
+    elements.status.textContent = "Impossible de charger la base de données.";
+    renderEmpty("Erreur de lecture du fichier CSV. Vérifie l'URL de publication.");
   }
 }
 
