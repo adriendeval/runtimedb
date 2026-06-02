@@ -17,8 +17,8 @@ function isRowEmpty(row) {
 
 function normalizeRows(rows) {
   const normalized = [];
-  let lastIdTmdb = "";
-  let lastNom = "";
+  let currentIdTmdb = "";
+  let currentNom = "";
 
   for (const row of rows) {
     if (!row || isRowEmpty(row)) continue;
@@ -28,11 +28,16 @@ function normalizeRows(rows) {
       clean[key.trim()] = normalizeText(value);
     }
 
-    if (!clean.id_tmdb) clean.id_tmdb = lastIdTmdb;
-    if (!clean.nom) clean.nom = lastNom;
+    // Si un nouveau nom ou ID est détecté, on met à jour les données courantes.
+    // Ça empêche l'ID d'un film de fuiter sur le film suivant.
+    if (clean.nom !== "" || clean.id_tmdb !== "") {
+      currentNom = clean.nom;
+      currentIdTmdb = clean.id_tmdb;
+    }
 
-    if (clean.id_tmdb) lastIdTmdb = clean.id_tmdb;
-    if (clean.nom) lastNom = clean.nom;
+    // Application aux lignes vides (cellules fusionnées)
+    clean.nom = currentNom;
+    clean.id_tmdb = currentIdTmdb;
 
     if (!clean.nom && !clean.id_tmdb && !clean.type && !clean.description && !clean.durees) {
       continue;
