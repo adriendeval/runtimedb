@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    text-align: center;
+    padding: 30px;
+}
+
+#movies {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+
+    display: grid;
+    gap: 20px;
+}
+
+.movie {
+    display: flex;
+    gap: 20px;
+
+    background: #1b1b1b;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.movie img {
+    width: 150px;
+    border-radius: 8px;
+}
+
+.movie-info {
+    flex: 1;
+}
+
+.runtime {
+    margin-top: 10px;
+}
+
+.runtime div {
+    margin-bottom: 5px;
+}
